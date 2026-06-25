@@ -1,6 +1,6 @@
 // ==================== FORM VALIDATION & SUBMISSION ====================
 
-const isNetlify = window.location.hostname.includes('netlify') || window.location.hostname.includes('ailearninghut');
+const isNetlify = window.location.hostname.includes('netlify') || window.location.hostname.includes('ailearninghut') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
 // ---- Modal Popup ----
 function showToast(message, type = 'success', onOk = null) {
@@ -87,8 +87,8 @@ function validateField(field) {
     if (!value) { showFieldError(field, 'Please select an option'); return false; }
   }
   if (field.tagName === 'TEXTAREA') {
-    if (!value) { showFieldError(field, 'Message is required'); return false; }
-    if (value.length < 10) { showFieldError(field, 'Message must be at least 10 characters'); return false; }
+    if (field.hasAttribute('required') && !value) { showFieldError(field, 'Message is required'); return false; }
+    if (value && value.length < 10) { showFieldError(field, 'Message must be at least 10 characters'); return false; }
   }
   if (field.hasAttribute('required') && !value) {
     showFieldError(field, 'This field is required'); return false;
@@ -109,36 +109,39 @@ function setupRealTimeValidation() {
   });
 }
 
-// ---- Submit via hidden iframe (Netlify Forms compatible) ----
-function submitViaIframe(form) {
-  return new Promise((resolve) => {
-    let iframe = document.getElementById('hidden-form-frame');
-    if (!iframe) {
-      iframe = document.createElement('iframe');
-      iframe.id = 'hidden-form-frame';
-      iframe.name = 'hidden-form-frame';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-    }
+// ---- Submit via Fetch (Netlify Forms compatible) ----
+async function submitNetlifyForm(form) {
+  const formData = new FormData(form);
+  const searchParams = new URLSearchParams();
+  for (const pair of formData) {
+    searchParams.append(pair[0], pair[1]);
+  }
 
-    form.setAttribute('target', 'hidden-form-frame');
-
-    iframe.onload = () => {
-      resolve(true);
-    };
-
-    form.submit();
+  const response = await fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: searchParams.toString()
   });
+
+  if (!response.ok) {
+    throw new Error(`Netlify Form error: ${response.status} ${response.statusText}`);
+  }
+  return true;
 }
 
 // ---- Google Sheets helper ----
 async function sendToGoogleSheets(data) {
   try {
-    await fetch('/.netlify/functions/submit-to-sheets', {
+    const res = await fetch('/.netlify/functions/submit-to-sheets', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
+    const result = await res.json();
+    console.log('Google Sheets function response:', result);
+    if (result.error) {
+      console.error('Google Sheets API Error:', result.message);
+    }
   } catch (e) {
     console.log('Sheets sync skipped:', e.message);
   }
@@ -179,8 +182,12 @@ if (enrollForm) {
       const formData = new FormData(enrollForm);
 
       if (isNetlify) {
-        // Submit to Netlify Forms via hidden iframe
-        await submitViaIframe(enrollForm);
+        // Submit to Netlify Forms via Fetch
+        try {
+          await submitNetlifyForm(enrollForm);
+        } catch (netlifyErr) {
+          console.warn('Netlify form submission failed (often happens locally):', netlifyErr);
+        }
 
         // Also send to Google Sheets
         await sendToGoogleSheets({
@@ -212,7 +219,7 @@ if (enrollForm) {
       });
     } catch (err) {
       console.error(err);
-      showToast('Something went wrong. Please try again.', 'error');
+      showToast(err.message || 'Something went wrong. Please try again.', 'error');
       submitBtn.disabled = false;
       submitText.textContent = 'Submit Enrollment';
       submitSpinner.classList.add('hidden');
@@ -236,7 +243,11 @@ if (newsletterForm) {
 
     try {
       if (isNetlify) {
-        await submitViaIframe(newsletterForm);
+        try {
+          await submitNetlifyForm(newsletterForm);
+        } catch (netlifyErr) {
+          console.warn('Netlify form submission failed (often happens locally):', netlifyErr);
+        }
       } else {
         console.log('Local dev - Newsletter:', emailInput.value);
         await new Promise(r => setTimeout(r, 400));
@@ -246,7 +257,8 @@ if (newsletterForm) {
         newsletterForm.removeAttribute('target');
       });
     } catch (e) {
-      showToast('Subscription failed.', 'error');
+      console.error(e);
+      showToast(e.message || 'Subscription failed.', 'error');
       newsletterForm.removeAttribute('target');
     }
   });
@@ -278,7 +290,11 @@ if (contactForm) {
       const formData = new FormData(contactForm);
 
       if (isNetlify) {
-        await submitViaIframe(contactForm);
+        try {
+          await submitNetlifyForm(contactForm);
+        } catch (netlifyErr) {
+          console.warn('Netlify form submission failed (often happens locally):', netlifyErr);
+        }
         await sendToGoogleSheets({
           formType: 'contact',
           name: formData.get('name'),
@@ -300,7 +316,8 @@ if (contactForm) {
         contactForm.removeAttribute('target');
       });
     } catch (err) {
-      showToast('Failed to send. Please try again.', 'error', () => {
+      console.error(err);
+      showToast(err.message || 'Failed to send. Please try again.', 'error', () => {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
         contactForm.removeAttribute('target');

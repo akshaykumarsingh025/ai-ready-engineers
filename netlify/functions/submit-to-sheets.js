@@ -143,6 +143,6 @@ async function createJWT(email, privateKey) {
 }
 
 function base64url(data) {
-  const str = typeof data === 'string' ? data : data.toString('base64');
+  const str = typeof data === 'string' ? Buffer.from(data).toString('base64') : data.toString('base64');
   return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
