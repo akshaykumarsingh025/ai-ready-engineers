@@ -2,13 +2,11 @@
 
 const isNetlify = window.location.hostname.includes('netlify') || window.location.hostname.includes('ailearninghut');
 
-// ---- Toast / Modal ----
+// ---- Modal Popup ----
 function showToast(message, type = 'success', onOk = null) {
-  // Remove existing
   const old = document.querySelector('.toast-overlay');
   if (old) old.remove();
 
-  // Create overlay
   const overlay = document.createElement('div');
   overlay.className = 'toast-overlay';
   overlay.innerHTML = `
@@ -19,18 +17,13 @@ function showToast(message, type = 'success', onOk = null) {
     </div>
   `;
   document.body.appendChild(overlay);
-
-  // Show with animation
   requestAnimationFrame(() => overlay.classList.add('show'));
 
-  // OK button handler
   overlay.querySelector('.toast-ok-btn').addEventListener('click', () => {
     overlay.classList.remove('show');
     setTimeout(() => overlay.remove(), 300);
     if (onOk) onOk();
   });
-
-  // Also close on overlay click
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
       overlay.classList.remove('show');
@@ -54,7 +47,6 @@ function isValidName(name) {
   return /^[a-zA-Z\s]{2,50}$/.test(name.trim());
 }
 
-// ---- Show field error ----
 function showFieldError(field, message) {
   field.classList.add('border-red-500');
   field.classList.remove('border-slate-200');
@@ -67,7 +59,6 @@ function showFieldError(field, message) {
   err.textContent = message;
 }
 
-// ---- Clear field error ----
 function clearFieldError(field) {
   field.classList.remove('border-red-500');
   field.classList.add('border-slate-200');
@@ -75,52 +66,38 @@ function clearFieldError(field) {
   if (err) err.remove();
 }
 
-// ---- Validate single field ----
 function validateField(field) {
   const value = field.value.trim();
   const type = field.getAttribute('type') || field.tagName.toLowerCase();
   const name = field.getAttribute('name');
 
-  // Name field
   if (name === 'name') {
     if (!value) { showFieldError(field, 'Name is required'); return false; }
     if (!isValidName(value)) { showFieldError(field, 'Name must be 2-50 letters only'); return false; }
   }
-
-  // Email field
   if (type === 'email') {
     if (!value) { showFieldError(field, 'Email is required'); return false; }
-    if (!isValidEmail(value)) { showFieldError(field, 'Enter a valid email (e.g. you@example.com)'); return false; }
+    if (!isValidEmail(value)) { showFieldError(field, 'Enter a valid email'); return false; }
   }
-
-  // Phone field
   if (type === 'tel') {
     if (!value) { showFieldError(field, 'Phone number is required'); return false; }
     if (!isValidPhone(value)) { showFieldError(field, 'Enter a valid 10-digit Indian phone number'); return false; }
   }
-
-  // Select field
   if (field.tagName === 'SELECT') {
     if (!value) { showFieldError(field, 'Please select an option'); return false; }
   }
-
-  // Textarea (message)
   if (field.tagName === 'TEXTAREA') {
     if (!value) { showFieldError(field, 'Message is required'); return false; }
     if (value.length < 10) { showFieldError(field, 'Message must be at least 10 characters'); return false; }
   }
-
-  // Generic required
   if (field.hasAttribute('required') && !value) {
-    showFieldError(field, 'This field is required');
-    return false;
+    showFieldError(field, 'This field is required'); return false;
   }
 
   clearFieldError(field);
   return true;
 }
 
-// ---- Real-time validation on blur ----
 function setupRealTimeValidation() {
   document.querySelectorAll('form').forEach(form => {
     form.querySelectorAll('input, select, textarea').forEach(input => {
@@ -132,15 +109,26 @@ function setupRealTimeValidation() {
   });
 }
 
-// ---- Netlify POST helper ----
-async function submitToNetlify(form) {
-  const formData = new FormData(form);
-  const resp = await fetch('/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams(formData).toString()
+// ---- Submit via hidden iframe (Netlify Forms compatible) ----
+function submitViaIframe(form) {
+  return new Promise((resolve) => {
+    let iframe = document.getElementById('hidden-form-frame');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.id = 'hidden-form-frame';
+      iframe.name = 'hidden-form-frame';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
+
+    form.setAttribute('target', 'hidden-form-frame');
+
+    iframe.onload = () => {
+      resolve(true);
+    };
+
+    form.submit();
   });
-  return resp.ok;
 }
 
 // ---- Google Sheets helper ----
@@ -167,13 +155,11 @@ if (enrollForm) {
     const submitSpinner = document.getElementById('submit-spinner');
     const formSuccess = document.getElementById('form-success');
 
-    // Validate all visible fields
     let allValid = true;
     enrollForm.querySelectorAll('input:not([type="hidden"]):not([type="radio"]), select, textarea').forEach(field => {
       if (!validateField(field)) allValid = false;
     });
 
-    // Validate radio buttons (experience)
     const experienceSelected = enrollForm.querySelector('input[name="experience"]:checked');
     if (!experienceSelected) {
       allValid = false;
@@ -185,7 +171,6 @@ if (enrollForm) {
       return;
     }
 
-    // Loading state
     submitBtn.disabled = true;
     submitText.textContent = 'Submitting...';
     submitSpinner.classList.remove('hidden');
@@ -194,8 +179,10 @@ if (enrollForm) {
       const formData = new FormData(enrollForm);
 
       if (isNetlify) {
-        const ok = await submitToNetlify(enrollForm);
-        if (!ok) throw new Error('Netlify failed');
+        // Submit to Netlify Forms via hidden iframe
+        await submitViaIframe(enrollForm);
+
+        // Also send to Google Sheets
         await sendToGoogleSheets({
           name: formData.get('name'),
           email: formData.get('email'),
@@ -220,6 +207,7 @@ if (enrollForm) {
         submitBtn.disabled = false;
         submitText.textContent = 'Submit Enrollment';
         submitSpinner.classList.add('hidden');
+        enrollForm.removeAttribute('target');
         document.getElementById('enroll').scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     } catch (err) {
@@ -228,6 +216,7 @@ if (enrollForm) {
       submitBtn.disabled = false;
       submitText.textContent = 'Submit Enrollment';
       submitSpinner.classList.add('hidden');
+      enrollForm.removeAttribute('target');
     }
   });
 }
@@ -247,22 +236,18 @@ if (newsletterForm) {
 
     try {
       if (isNetlify) {
-        const formData = new FormData(newsletterForm);
-        const resp = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData).toString()
-        });
-        if (!resp.ok) throw new Error('Failed');
+        await submitViaIframe(newsletterForm);
       } else {
         console.log('Local dev - Newsletter:', emailInput.value);
         await new Promise(r => setTimeout(r, 400));
       }
       showToast('Subscribed successfully!', 'success', () => {
-        emailInput.value = '';
+        newsletterForm.reset();
+        newsletterForm.removeAttribute('target');
       });
     } catch (e) {
       showToast('Subscription failed.', 'error');
+      newsletterForm.removeAttribute('target');
     }
   });
 }
@@ -293,12 +278,7 @@ if (contactForm) {
       const formData = new FormData(contactForm);
 
       if (isNetlify) {
-        const resp = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData).toString()
-        });
-        if (!resp.ok) throw new Error('Failed');
+        await submitViaIframe(contactForm);
         await sendToGoogleSheets({
           formType: 'contact',
           name: formData.get('name'),
@@ -317,11 +297,13 @@ if (contactForm) {
       showToast('Message sent successfully!', 'success', () => {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
+        contactForm.removeAttribute('target');
       });
     } catch (err) {
       showToast('Failed to send. Please try again.', 'error', () => {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
+        contactForm.removeAttribute('target');
       });
     }
   });
