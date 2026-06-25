@@ -1,5 +1,8 @@
 // ==================== FORM VALIDATION & SUBMISSION ====================
 
+// Detect if running on Netlify
+const isNetlify = window.location.hostname.includes('netlify') || window.location.hostname.includes('ailearninghut');
+
 // Toast notification helper
 function showToast(message, type = 'success') {
   const existingToast = document.querySelector('.toast');
@@ -92,6 +95,30 @@ function validateField(field) {
   return isValid;
 }
 
+// Submit form to Netlify Forms
+async function submitToNetlify(form) {
+  const formData = new FormData(form);
+  const response = await fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(formData).toString()
+  });
+  return response.ok;
+}
+
+// Send data to Google Sheets (Netlify Function)
+async function sendToGoogleSheets(data) {
+  try {
+    await fetch('/.netlify/functions/submit-to-sheets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (e) {
+    console.log('Google Sheets sync skipped:', e.message);
+  }
+}
+
 // ==================== ENROLLMENT FORM ====================
 const enrollForm = document.getElementById('enroll-form');
 
@@ -112,9 +139,7 @@ if (enrollForm) {
       if (field.type === 'radio') {
         const radioGroup = enrollForm.querySelectorAll(`[name="${field.name}"]`);
         const isSelected = Array.from(radioGroup).some(r => r.checked);
-        if (!isSelected) {
-          allValid = false;
-        }
+        if (!isSelected) allValid = false;
       } else {
         if (!validateField(field)) allValid = false;
       }
@@ -139,42 +164,34 @@ if (enrollForm) {
     submitSpinner.classList.remove('hidden');
 
     try {
-      // Netlify form submission
       const formData = new FormData(enrollForm);
 
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      });
+      if (isNetlify) {
+        // Production: submit to Netlify Forms
+        const success = await submitToNetlify(enrollForm);
+        if (!success) throw new Error('Netlify submission failed');
 
-      if (response.ok) {
-        // Also try to send to Google Sheets via Netlify Function
-        try {
-          await fetch('/.netlify/functions/submit-to-sheets', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: formData.get('name'),
-              email: formData.get('email'),
-              phone: formData.get('phone'),
-              course: formData.get('course'),
-              experience: formData.get('experience'),
-              message: formData.get('message'),
-              timestamp: new Date().toISOString()
-            })
-          });
-        } catch (sheetsError) {
-          console.log('Google Sheets sync skipped:', sheetsError);
-        }
-
-        // Show success
-        enrollForm.style.display = 'none';
-        formSuccess.classList.remove('hidden');
-        showToast('Enrollment submitted successfully!', 'success');
+        // Also send to Google Sheets
+        await sendToGoogleSheets({
+          name: formData.get('name'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          course: formData.get('course'),
+          experience: formData.get('experience'),
+          message: formData.get('message'),
+          timestamp: new Date().toISOString()
+        });
       } else {
-        throw new Error('Form submission failed');
+        // Local development: simulate success
+        console.log('📦 Local dev - Form data:', Object.fromEntries(formData));
+        await new Promise(r => setTimeout(r, 800)); // Simulate network delay
       }
+
+      // Show success
+      enrollForm.style.display = 'none';
+      formSuccess.classList.remove('hidden');
+      showToast('Enrollment submitted successfully!', 'success');
+
     } catch (error) {
       console.error('Error:', error);
       showToast('Something went wrong. Please try again.', 'error');
@@ -199,17 +216,21 @@ if (newsletterForm) {
     }
 
     try {
-      const formData = new FormData(newsletterForm);
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      });
-
-      if (response.ok) {
-        showToast('Subscribed successfully!', 'success');
-        emailInput.value = '';
+      if (isNetlify) {
+        const formData = new FormData(newsletterForm);
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        });
+        if (!response.ok) throw new Error('Failed');
+      } else {
+        console.log('📦 Local dev - Newsletter:', emailInput.value);
+        await new Promise(r => setTimeout(r, 500));
       }
+
+      showToast('Subscribed successfully!', 'success');
+      emailInput.value = '';
     } catch (error) {
       showToast('Subscription failed. Please try again.', 'error');
     }
@@ -244,37 +265,33 @@ if (contactForm) {
     try {
       const formData = new FormData(contactForm);
 
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      });
+      if (isNetlify) {
+        // Production: submit to Netlify Forms
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        });
+        if (!response.ok) throw new Error('Failed');
 
-      if (response.ok) {
-        // Try Google Sheets
-        try {
-          await fetch('/.netlify/functions/submit-to-sheets', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              formType: 'contact',
-              name: formData.get('name'),
-              email: formData.get('email'),
-              phone: formData.get('phone'),
-              subject: formData.get('subject'),
-              message: formData.get('message'),
-              timestamp: new Date().toISOString()
-            })
-          });
-        } catch (e) {
-          console.log('Sheets sync skipped');
-        }
-
-        contactForm.reset();
-        showToast('Message sent successfully! We\'ll get back to you soon.', 'success');
+        // Also send to Google Sheets
+        await sendToGoogleSheets({
+          formType: 'contact',
+          name: formData.get('name'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          subject: formData.get('subject'),
+          message: formData.get('message'),
+          timestamp: new Date().toISOString()
+        });
       } else {
-        throw new Error('Failed');
+        // Local development: simulate success
+        console.log('📦 Local dev - Contact form:', Object.fromEntries(formData));
+        await new Promise(r => setTimeout(r, 800));
       }
+
+      contactForm.reset();
+      showToast('Message sent successfully! We\'ll get back to you soon.', 'success');
     } catch (error) {
       showToast('Failed to send message. Please try again.', 'error');
     } finally {
