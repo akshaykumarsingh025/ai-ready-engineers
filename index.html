@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Ready Engineers | Future-Ready AI Training Center</title>
-  <meta name="description" content="Master Python, Machine Learning, Neural Networks, AI Agents & more. Join 5000+ students becoming AI-ready engineers. Enroll now for hands-on training with expert faculty.">
-  <meta name="keywords" content="AI training, machine learning course, Python bootcamp, AI agents, neural networks, deep learning, AI coding, future ready developers">
+  <meta name="description" content="Master Python programming and AI Agents. Learn to build autonomous agents, tool-use patterns, and production AI systems. Enroll now for hands-on training with interview assistance.">
+  <meta name="keywords" content="Python course, AI agents training, agent harness, Python programming, AI training, build AI agents, autonomous agents">
   <meta name="author" content="AI Ready Engineers">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
   <meta property="og:title" content="AI Ready Engineers | Future-Ready AI Training Center">
-  <meta property="og:description" content="Master Python, ML, Neural Networks, AI Agents & more. Become an AI-ready engineer.">
+  <meta property="og:description" content="Master Python programming and AI Agents. Build autonomous agents and production AI systems.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ailearninghut.com/">
   <meta property="og:image" content="https://ailearninghut.com/assets/og-image.png">
@@ -19,7 +19,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AI Ready Engineers | Future-Ready AI Training Center">
-  <meta name="twitter:description" content="Master Python, ML, Neural Networks, AI Agents & more.">
+  <meta name="twitter:description" content="Master Python programming and AI Agents. Build autonomous agents and production AI systems.">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -27,7 +27,7 @@
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     "name": "AI Ready Engineers",
-    "description": "Future-ready AI training center offering courses in Python, Machine Learning, Neural Networks, AI Agents, and more.",
+    "description": "AI training center offering courses in Python Programming and AI Agents. Build autonomous agents and production AI systems.",
     "url": "https://ailearninghut.com",
     "sameAs": [],
     "address": {
@@ -122,7 +122,7 @@
           </h1>
 
           <p class="text-lg sm:text-xl text-slate-600 mb-8 max-w-xl mx-auto lg:mx-0">
-            Master Python, Machine Learning, Neural Networks, AI Agents & more. From zero to AI hero — we train future-ready developers.
+            Master Python programming and build autonomous AI Agents. From zero to building production AI systems — we train future-ready developers.
           </p>
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -138,15 +138,7 @@
           <div class="flex flex-wrap gap-6 mt-10 justify-center lg:justify-start">
             <div class="flex items-center gap-2 text-sm text-slate-600">
               <svg class="w-5 h-5 text-teal-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              5000+ Students
-            </div>
-            <div class="flex items-center gap-2 text-sm text-slate-600">
-              <svg class="w-5 h-5 text-teal-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              100% Placement Assistance
-            </div>
-            <div class="flex items-center gap-2 text-sm text-slate-600">
-              <svg class="w-5 h-5 text-teal-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              Certificate Included
+              Interview Assistance
             </div>
           </div>
         </div>
@@ -160,20 +152,24 @@
                 <div class="w-3 h-3 rounded-full bg-red-400"></div>
                 <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
                 <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                <span class="ml-2 text-xs text-slate-500">model.py</span>
+                <span class="ml-2 text-xs text-slate-500">agent.py</span>
               </div>
-              <pre class="text-sm font-mono text-slate-700"><code><span class="text-primary-600">import</span> tensorflow <span class="text-primary-600">as</span> tf
+              <pre class="text-sm font-mono text-slate-700"><code><span class="text-primary-600">from</span> agents <span class="text-primary-600">import</span> Agent, Runner
 
-model = tf.keras.Sequential([
-  tf.keras.layers.Dense(128),
-  tf.keras.layers.ReLU(),
-  tf.keras.layers.Dense(10)
-])
+agent = Agent(
+    name=<span class="text-teal-600">"History tutor"</span>,
+    instructions=<span class="text-teal-600">"You answer history
+    questions clearly and concisely."</span>,
+    model=<span class="text-teal-600">"gpt-5.5"</span>,
+)
 
-model.compile(
-  optimizer=<span class="text-teal-600">'adam'</span>,
-  loss=<span class="text-teal-600">'sparse_categorical_crossentropy'</span>
-)</code></pre>
+<span class="text-primary-600">async def</span> main():
+    result = <span class="text-primary-600">await</span> Runner.run(
+        agent,
+        <span class="text-teal-600">"When did the Roman
+        Empire fall?"</span>
+    )
+    <span class="text-primary-600">print</span>(result.final_output)</code></pre>
             </div>
 
             <!-- Stats Card -->
@@ -181,8 +177,8 @@ model.compile(
               <div class="flex items-center gap-3">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white text-xl">🎯</div>
                 <div>
-                  <div class="text-2xl font-heading font-bold text-slate-800">95%</div>
-                  <div class="text-sm text-slate-500">Placement Rate</div>
+                  <div class="text-2xl font-heading font-bold text-slate-800">100%</div>
+                  <div class="text-sm text-slate-500">Interview Assistance</div>
                 </div>
               </div>
             </div>
@@ -208,31 +204,7 @@ model.compile(
     </div>
   </header>
 
-  <!-- ==================== STATS BAR ==================== -->
-  <section class="py-6 relative z-10">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="glass-card rounded-3xl p-6 sm:p-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div>
-            <div class="text-3xl sm:text-4xl font-heading font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent counter" data-target="5000">0</div>
-            <div class="text-sm text-slate-500 mt-1">Students Enrolled</div>
-          </div>
-          <div>
-            <div class="text-3xl sm:text-4xl font-heading font-bold bg-gradient-to-r from-teal-500 to-teal-700 bg-clip-text text-transparent counter" data-target="15">0</div>
-            <div class="text-sm text-slate-500 mt-1">Expert-Led Courses</div>
-          </div>
-          <div>
-            <div class="text-3xl sm:text-4xl font-heading font-bold bg-gradient-to-r from-accent-500 to-accent-700 bg-clip-text text-transparent counter" data-target="95">0</div>
-            <div class="text-sm text-slate-500 mt-1">% Placement Rate</div>
-          </div>
-          <div>
-            <div class="text-3xl sm:text-4xl font-heading font-bold bg-gradient-to-r from-primary-500 to-teal-500 bg-clip-text text-transparent counter" data-target="500">0</div>
-            <div class="text-sm text-slate-500 mt-1">Hiring Partners</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- ==================== COURSES SECTION ==================== -->
   <section id="courses" class="py-20 lg:py-28 relative">
@@ -244,124 +216,61 @@ model.compile(
           Master the <span class="bg-gradient-to-r from-primary-600 to-teal-500 bg-clip-text text-transparent">Future of Tech</span>
         </h2>
         <p class="text-slate-600 text-lg max-w-2xl mx-auto">
-          From Python fundamentals to building AI agents — choose your path to becoming an AI-ready engineer.
+          Two focused courses designed to take you from Python basics to building autonomous AI agents.
         </p>
       </div>
 
       <!-- Course Grid -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div class="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
         <!-- Course 1: Python -->
-        <div class="course-card glass-card rounded-3xl p-6 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 hover:-translate-y-2 group">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🐍</div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 bg-teal-100 text-teal-700 text-xs font-semibold rounded-full">Beginner</span>
-            <span class="text-xs text-slate-400">8 Weeks</span>
+        <div class="course-card glass-card rounded-3xl overflow-hidden hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 hover:-translate-y-2 group">
+          <div class="h-3 bg-gradient-to-r from-yellow-400 to-yellow-600"></div>
+          <div class="p-8">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🐍</div>
+              <span class="px-3 py-1 bg-teal-100 text-teal-700 text-xs font-semibold rounded-full">Beginner</span>
+            </div>
+            <h3 class="font-heading font-bold text-xl mb-3">Python Programming</h3>
+            <p class="text-sm text-slate-500 mb-4">Master Python from scratch. Variables, loops, OOP, file handling, and real-world projects.</p>
+            <div class="border-t border-slate-100 pt-4 mb-4">
+              <h4 class="font-semibold text-sm mb-2">What you'll learn:</h4>
+              <ul class="text-xs text-slate-500 space-y-1">
+                <li>Python basics & data types</li>
+                <li>Object-Oriented Programming</li>
+                <li>File handling & error management</li>
+                <li>Real-world projects</li>
+              </ul>
+            </div>
+            <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
+              Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
           </div>
-          <h3 class="font-heading font-bold text-lg mb-2">Python Programming</h3>
-          <p class="text-sm text-slate-500 mb-4">Master Python from scratch. Variables, loops, OOP, file handling, and real-world projects.</p>
-          <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
-            Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
         </div>
 
-        <!-- Course 2: Machine Learning -->
-        <div class="course-card glass-card rounded-3xl p-6 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 hover:-translate-y-2 group">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">📊</div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 bg-accent-100 text-accent-700 text-xs font-semibold rounded-full">Intermediate</span>
-            <span class="text-xs text-slate-400">12 Weeks</span>
+        <!-- Course 2: AI Agents -->
+        <div class="course-card glass-card rounded-3xl overflow-hidden hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 hover:-translate-y-2 group">
+          <div class="h-3 bg-gradient-to-r from-emerald-400 to-emerald-600"></div>
+          <div class="p-8">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🕸️</div>
+              <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Advanced</span>
+            </div>
+            <h3 class="font-heading font-bold text-xl mb-3">AI Agents</h3>
+            <p class="text-sm text-slate-500 mb-4">Build autonomous agents, tool-use patterns, ReAct, multi-agent systems, and orchestration.</p>
+            <div class="border-t border-slate-100 pt-4 mb-4">
+              <h4 class="font-semibold text-sm mb-2">What you'll learn:</h4>
+              <ul class="text-xs text-slate-500 space-y-1">
+                <li>Agent architectures & patterns</li>
+                <li>Tool-use & function calling</li>
+                <li>Multi-agent orchestration</li>
+                <li>Production agent deployment</li>
+              </ul>
+            </div>
+            <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
+              Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
           </div>
-          <h3 class="font-heading font-bold text-lg mb-2">Machine Learning</h3>
-          <p class="text-sm text-slate-500 mb-4">Supervised & unsupervised learning, regression, classification, clustering with scikit-learn.</p>
-          <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
-            Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <!-- Course 3: Neural Networks -->
-        <div class="course-card glass-card rounded-3xl p-6 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 hover:-translate-y-2 group">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🧠</div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 bg-accent-100 text-accent-700 text-xs font-semibold rounded-full">Intermediate</span>
-            <span class="text-xs text-slate-400">10 Weeks</span>
-          </div>
-          <h3 class="font-heading font-bold text-lg mb-2">Neural Networks</h3>
-          <p class="text-sm text-slate-500 mb-4">Build neural nets from scratch. CNNs, RNNs, backpropagation, TensorFlow & PyTorch.</p>
-          <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
-            Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <!-- Course 4: AI -->
-        <div class="course-card glass-card rounded-3xl p-6 hover:shadow-xl hover:shadow-accent-500/10 transition-all duration-300 hover:-translate-y-2 group">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🤖</div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Advanced</span>
-            <span class="text-xs text-slate-400">14 Weeks</span>
-          </div>
-          <h3 class="font-heading font-bold text-lg mb-2">Artificial Intelligence</h3>
-          <p class="text-sm text-slate-500 mb-4">Search algorithms, NLP, computer vision, reinforcement learning, and AI systems design.</p>
-          <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
-            Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <!-- Course 5: AI Agents -->
-        <div class="course-card glass-card rounded-3xl p-6 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 hover:-translate-y-2 group">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🕸️</div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Advanced</span>
-            <span class="text-xs text-slate-400">8 Weeks</span>
-          </div>
-          <h3 class="font-heading font-bold text-lg mb-2">AI Agents</h3>
-          <p class="text-sm text-slate-500 mb-4">Build autonomous agents, tool-use patterns, ReAct, multi-agent systems, and agent orchestration.</p>
-          <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
-            Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <!-- Course 6: Agent Harness -->
-        <div class="course-card glass-card rounded-3xl p-6 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 hover:-translate-y-2 group">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">⚡</div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Advanced</span>
-            <span class="text-xs text-slate-400">6 Weeks</span>
-          </div>
-          <h3 class="font-heading font-bold text-lg mb-2">Agent Harness</h3>
-          <p class="text-sm text-slate-500 mb-4">Master agent frameworks, testing harnesses, evaluation pipelines, and production deployment.</p>
-          <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
-            Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <!-- Course 7: AI Bootcamp -->
-        <div class="course-card glass-card rounded-3xl p-6 hover:shadow-xl hover:shadow-accent-500/10 transition-all duration-300 hover:-translate-y-2 group ring-2 ring-accent-400/50">
-          <div class="absolute -top-3 right-6 px-3 py-1 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-xs font-bold rounded-full">POPULAR</div>
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🔥</div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 bg-primary-100 text-primary-700 text-xs font-semibold rounded-full">All Levels</span>
-            <span class="text-xs text-slate-400">16 Weeks</span>
-          </div>
-          <h3 class="font-heading font-bold text-lg mb-2">AI Bootcamp</h3>
-          <p class="text-sm text-slate-500 mb-4">Complete AI mastery. Python → ML → DL → Agents → Deploy. The ultimate crash course.</p>
-          <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
-            Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <!-- Course 8: AI Coding -->
-        <div class="course-card glass-card rounded-3xl p-6 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 hover:-translate-y-2 group">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">💻</div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 bg-teal-100 text-teal-700 text-xs font-semibold rounded-full">Beginner</span>
-            <span class="text-xs text-slate-400">10 Weeks</span>
-          </div>
-          <h3 class="font-heading font-bold text-lg mb-2">AI Coding for Developers</h3>
-          <p class="text-sm text-slate-500 mb-4">Code with AI assistants. GitHub Copilot, prompt engineering, AI-powered development workflows.</p>
-          <a href="#enroll" class="inline-flex items-center text-primary-600 font-semibold text-sm hover:text-primary-700 transition-colors">
-            Enroll Now <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
         </div>
 
       </div>
@@ -410,112 +319,9 @@ model.compile(
     </div>
   </section>
 
-  <!-- ==================== LEARNING PATH ==================== -->
-  <section class="py-20 lg:py-28 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <span class="inline-block px-4 py-1.5 bg-accent-100 text-accent-700 rounded-full text-sm font-semibold mb-4">Your Journey</span>
-        <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-          Learning Path to <span class="bg-gradient-to-r from-accent-500 to-primary-600 bg-clip-text text-transparent">AI Mastery</span>
-        </h2>
-        <p class="text-slate-600 text-lg max-w-2xl mx-auto">From complete beginner to AI expert — follow our structured path.</p>
-      </div>
 
-      <div class="relative">
-        <!-- Timeline Line -->
-        <div class="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 via-teal-500 to-accent-500 rounded-full -translate-y-1/2"></div>
 
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <!-- Step 1 -->
-          <div class="relative text-center lg:text-center">
-            <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-heading font-bold text-xl mb-4 relative z-10 shadow-lg shadow-primary-500/30">1</div>
-            <h3 class="font-heading font-bold text-lg mb-2">Foundation</h3>
-            <p class="text-sm text-slate-500">Learn Python programming, data structures, and algorithms.</p>
-          </div>
 
-          <!-- Step 2 -->
-          <div class="relative text-center lg:text-center">
-            <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center text-white font-heading font-bold text-xl mb-4 relative z-10 shadow-lg shadow-teal-500/30">2</div>
-            <h3 class="font-heading font-bold text-lg mb-2">Core AI</h3>
-            <p class="text-sm text-slate-500">Master Machine Learning, Neural Networks, and Deep Learning.</p>
-          </div>
-
-          <!-- Step 3 -->
-          <div class="relative text-center lg:text-center">
-            <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-accent-500 to-accent-700 flex items-center justify-center text-white font-heading font-bold text-xl mb-4 relative z-10 shadow-lg shadow-accent-500/30">3</div>
-            <h3 class="font-heading font-bold text-lg mb-2">Specialize</h3>
-            <p class="text-sm text-slate-500">Dive into AI Agents, NLP, Computer Vision, and advanced topics.</p>
-          </div>
-
-          <!-- Step 4 -->
-          <div class="relative text-center lg:text-center">
-            <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-white font-heading font-bold text-xl mb-4 relative z-10 shadow-lg shadow-violet-500/30">4</div>
-            <h3 class="font-heading font-bold text-lg mb-2">Deploy & Get Hired</h3>
-            <p class="text-sm text-slate-500">Build portfolio, deploy projects, and land your AI engineering role.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== TESTIMONIALS ==================== -->
-  <section class="py-20 lg:py-28 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <span class="inline-block px-4 py-1.5 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-4">Success Stories</span>
-        <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-          What Our <span class="bg-gradient-to-r from-primary-600 to-teal-500 bg-clip-text text-transparent">Students Say</span>
-        </h2>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Testimonial 1 -->
-        <div class="glass-card rounded-3xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="flex items-center gap-1 mb-4">
-            <span class="text-yellow-400 text-lg">★★★★★</span>
-          </div>
-          <p class="text-slate-600 mb-6 italic">"From zero coding experience to building AI agents in 4 months. The structured path and mentor support made all the difference. Now I'm working as an AI Engineer!"</p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-sm">RK</div>
-            <div>
-              <div class="font-heading font-semibold text-sm">Rahul Kumar</div>
-              <div class="text-xs text-slate-400">AI Engineer at TechCorp</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Testimonial 2 -->
-        <div class="glass-card rounded-3xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="flex items-center gap-1 mb-4">
-            <span class="text-yellow-400 text-lg">★★★★★</span>
-          </div>
-          <p class="text-slate-600 mb-6 italic">"The AI Bootcamp was intense but worth every minute. The hands-on projects gave me a portfolio that stood out. Got placed within 2 weeks of completing the course!"</p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white font-bold text-sm">PS</div>
-            <div>
-              <div class="font-heading font-semibold text-sm">Priya Sharma</div>
-              <div class="text-xs text-slate-400">ML Engineer at DataFlow</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Testimonial 3 -->
-        <div class="glass-card rounded-3xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="flex items-center gap-1 mb-4">
-            <span class="text-yellow-400 text-lg">★★★★★</span>
-          </div>
-          <p class="text-slate-600 mb-6 italic">"As a working professional, the flexible schedule was perfect. I upskilled in AI Agents and Harness while keeping my job. Best investment in my career!"</p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center text-white font-bold text-sm">AM</div>
-            <div>
-              <div class="font-heading font-semibold text-sm">Amit Mehta</div>
-              <div class="text-xs text-slate-400">Senior Developer at InnovateLabs</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ==================== CTA BANNER ==================== -->
   <section class="py-20 relative overflow-hidden">
@@ -530,7 +336,7 @@ model.compile(
             Ready to Become an AI-Ready Engineer?
           </h2>
           <p class="text-primary-100 text-lg mb-8 max-w-2xl mx-auto">
-            Join 5000+ students who transformed their careers. Limited seats available for the next batch. Don't miss out!
+            Limited seats available for the next batch. Start your journey into Python and AI Agents today!
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#enroll" class="px-8 py-4 bg-white text-primary-700 font-bold rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-lg">
@@ -588,13 +394,7 @@ model.compile(
               <select id="course" name="course" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all bg-white/50">
                 <option value="">Select a course</option>
                 <option value="python">Python Programming</option>
-                <option value="machine-learning">Machine Learning</option>
-                <option value="neural-networks">Neural Networks</option>
-                <option value="artificial-intelligence">Artificial Intelligence</option>
                 <option value="ai-agents">AI Agents</option>
-                <option value="agent-harness">Agent Harness</option>
-                <option value="ai-bootcamp">AI Bootcamp (Recommended)</option>
-                <option value="ai-coding">AI Coding for Developers</option>
               </select>
             </div>
           </div>
@@ -652,12 +452,6 @@ model.compile(
             <span class="font-heading font-bold text-xl">AI Ready<span class="text-primary-400">Engineers</span></span>
           </a>
           <p class="text-slate-400 text-sm mb-4">Empowering the next generation of AI-ready developers with world-class training.</p>
-          <!-- Newsletter -->
-          <form id="newsletter-form" name="newsletter" method="POST" data-netlify="true" class="flex gap-2">
-            <input type="hidden" name="form-name" value="newsletter">
-            <input type="email" name="email" placeholder="Your email" required class="flex-1 px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 outline-none">
-            <button type="submit" class="px-4 py-2.5 bg-primary-600 rounded-xl font-semibold text-sm hover:bg-primary-500 transition-colors">Subscribe</button>
-          </form>
         </div>
 
         <!-- Quick Links -->
@@ -673,12 +467,10 @@ model.compile(
 
         <!-- Courses -->
         <div>
-          <h4 class="font-heading font-bold mb-4">Top Courses</h4>
+          <h4 class="font-heading font-bold mb-4">Our Courses</h4>
           <ul class="space-y-2 text-sm text-slate-400">
             <li><a href="/courses.html" class="hover:text-white transition-colors">Python Programming</a></li>
-            <li><a href="/courses.html" class="hover:text-white transition-colors">Machine Learning</a></li>
             <li><a href="/courses.html" class="hover:text-white transition-colors">AI Agents</a></li>
-            <li><a href="/courses.html" class="hover:text-white transition-colors">AI Bootcamp</a></li>
           </ul>
         </div>
 
